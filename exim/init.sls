@@ -19,7 +19,8 @@ exim_install_packages:
 {% set readhost = salt['pillar.get']('exim:config:readhost', '') %} 
 {% set relay_domains = salt['pillar.get']('exim:config:relay_domains', '') %} 
 {% set relay_nets = salt['pillar.get']('exim:config:relay_nets', '') %} 
-{% set smarthost = salt['pillar.get']('exim:config:smarthost', '') %} 
+{% set smarthost = salt['pillar.get']('exim:config:smarthost', '') %}
+{% set use_split_config = salt['pillar.get']('exim:config:use_split_config', 'false') %}
 
 {{ map.config_dir }}/{{ map.config_file }}:
   file.managed:
@@ -35,6 +36,7 @@ exim_install_packages:
         dc_relay_domains='{{ relay_domains }}'
         dc_relay_nets='{{ relay_nets }}'
         dc_smarthost='{{ smarthost }}'
+        dc_use_split_config='{{ use_split_config }}'
     - watch_in:
       - service: {{ map.service }}
 
